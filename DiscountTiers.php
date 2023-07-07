@@ -106,10 +106,8 @@ class DiscountTiers {
 		$numservices = $db->q('SELECT COUNT(*) FROM `services` WHERE `userid` = ? AND `domainstatus` = \'Active\' AND `amount` > 0 AND `module` != `domain`', $user['id']);
 		$numservices = $numservices[0]['COUNT(*)'];
 		$discounttier = $db->q('SELECT `discount` FROM `discounttiers` WHERE `numservices` < ? ORDER BY `numservices` DESC LIMIT 1', $numservices);
+		if (empty($discounttier)) return 0;
 		$discounttier = $discounttier[0];
-		if (empty($discounttier)) {
-			return 0;
-		}
 		return $discounttier['discount'];
 	}
 }
